@@ -6,7 +6,7 @@ from scrapingPaodeAcucar import pao_de_acucar
 from scrapingPrezunic import prezunic
 from scrapingZonaSul import zona_sul
 
-prod_cesta_basica = {"leguminosa":"arroz branco 1kg", "cereais":"feijão preto 1kg", "raizes":"batata", "legumes":"cebola", "frutas":"banana prata", "oleaginosas":"castanha caju", "carne":"ovos brancos", "leite":"leite pó integral 400", "oleos":"óleo de soja 900", "cafe":"café 500"}
+prod_cesta_basica = {"leguminosa":"arroz branco 1 kg", "cereais":"feijão preto 1 kg", "raizes":"batata", "legumes":"cebola", "frutas":"banana prata", "oleaginosas":"castanha caju", "carne":"ovos brancos", "leite":"leite pó integral 400 g", "oleos":"óleo de soja 900 g", "cafe":"café 500 g"}
 
 def busca_valores(mercado):
     cesta_mercado = {}
@@ -43,9 +43,11 @@ def filtrar_cesta(cesta_mercado):
                     # caso ja tenha, pegar o de menor preco
                     else:
                         # verificar a quantidade de nomes no titulo do produto, quanto mais proximo do padrão melhor
-                        dif_label_prod = abs(len(prod_cesta)-len(cesta_filtrada[grupo][0].split()))
-                        dif_label_prod_selecionado = abs(len(prod_cesta)-len(produto.split()))
-                        if dif_label_prod > dif_label_prod_selecionado and preco < cesta_filtrada[grupo][1]:
+                        #dif_label_prod = abs(len(prod_cesta)-len(cesta_filtrada[grupo][0].split()))
+                        #dif_label_prod_selecionado = abs(len(prod_cesta)-len(produto.split()))
+                        #if dif_label_prod > dif_label_prod_selecionado and preco < cesta_filtrada[grupo][1]:
+                        # compara preco, para pegar o menor
+                        if preco < cesta_filtrada[grupo][1]:
                             cesta_filtrada[grupo]=(produto,preco)
     return cesta_filtrada
 
@@ -87,20 +89,20 @@ def insere_prods_mercado(nome_mercado,cesta_filtrada):
     return df
 
 
-if __name__ == "__main__":
+def gera_df_cesta_basica():
 
     df_mercados = pd.DataFrame()
-    '''
+    
     ### Scraping Carrefour ###
     nome_mercado = "Carrefour"
-    carrefour = carrefour()
-    cesta_carrefour = busca_valores(carrefour)
+    carrefour_mercado = carrefour()
+    cesta_carrefour = busca_valores(carrefour_mercado)
     cesta_carrefour_filtrada = filtrar_cesta(cesta_carrefour)
     #cesta_carrefour_filtrada = {'leguminosa': ('Arroz Branco Longo-fino Tipo 1 Camil Todo Dia 1Kg', 6.89), 'cereais': ('Feijão Preto Tipo 1 Kicaldo 1Kg', 7.59), 'raizes': ('Batata Doce Roxa Carrefour Aprox. 600g', 2.93), 'legumes': ('Cebola Carrefour Aprox. 500g', 3.44), 'frutas': ('Banana Prata                Hortmix', 8.49), 'oleaginosas': ('Castanha de Caju Yoki 100g', 25.39), 'carne': ('Ovos Brancos Carrefour com 12 Unidades', 9.39), 'leite': ('Leite em Pó Integral Itambé 400g', 16.79), 'oleos': ('Óleo de Soja Soya 900ml', 5.89), 'cafe': ('Café em Pó Melitta 500g', 19.99)}
     df_mercados = pd.concat([df_mercados,insere_prods_mercado(nome_mercado, cesta_carrefour_filtrada)],axis=0)
 
     print(df_mercados)
-
+    
     ### Scraping Hortifruti ###
     nome_mercado = "Hortifruti"
     horti = hortifruti()
@@ -119,17 +121,17 @@ if __name__ == "__main__":
     df_mercados = pd.concat([df_mercados,insere_prods_mercado(nome_mercado, cesta_pao_de_acucar_filtrada)],axis=0)
     
     print(df_mercados)
-    '''
+    
     ### Scraping Prezunic ###
     nome_mercado = "Prezunic"
-    prezunic = prezunic()
-    #cesta_prezunic = busca_valores(prezunic)
+    prez = prezunic()
+    #cesta_prezunic = busca_valores(prez)
     cesta_prezunic = {'leguminosa': {'Arroz Branco Tio João Tipo1 1Kg': 'R$10,39', 'Arroz Branco Carreteiro Tipo1 1Kg': 'R$8,09', 'Arroz Branco Combrasil 1Kg': 'R$6,89', 'Arroz Branco Camil Tipo1 1Kg': 'R$8,49', 'Arroz Máximo Branco T1 1Kg': 'R$8,09', 'Arroz Branco Tio Mingote Tipo1 1Kg': 'R$7,29', 'Arroz Branco Prezunic Tipo1 1Kg': 'R$8,09'}, 'cereais': {'Feijão Preto Combrasil Tipo1 1Kg': 'R$9,79', 'Feijão Preto Carreteiro Tipo1 1Kg': 'R$9,19', 'Feijão Preto Super Máximo Tipo1 1Kg': 'R$10,39', 'Feijão Preto Caldo Carioca 1Kg': 'R$8,09', 'Feijão Preto Prezunic 1Kg': 'R$8,69', 'Feijão Preto Tio Mingote Tipo1 1Kg': 'R$8,09'}, 'raizes': {'Batata Inglesa': 'R$2,25', 'Batata Asterix': 'R$2,25', 'Batata Doce Prezunic 500g': 'R$5,79', 'Batata Baroa Prezunic 350g': 'R$14,99', 'Batata Doce Orgânica Rio de Una 600g': 'R$9,19', 'Batata Inglesa Orgânica Rio de Una 500g': 'R$10,99', 'Mini Batata Prezunic a Vácuo 500g': 'R$11,49', 'Batata Prezunic Cubinho Higienizado a Vácuo 400g': 'R$10,39'}, 'legumes': {'Cebola Branca': 'R$1,73', 'Cebola Roxa': 'R$2,26', 'Cebola Pirulit Sete Fratelli 1Kg': 'R$9,19', 'Alho e Cebola Picados Prezunic 200g': 'R$7,29', 'Cebola Prezunic Picada em Conserva Pote 200g': 'R$5,79', 'Cebola Picada Prezunic Pote 200g': 'R$9,19', 'Cebola Granulada BR Spices Essencial c/ Tampa Dosadora Vidro 30g': 'R$15,59', 'Cebola, Alho e Salsa Kitano 40g': 'R$10,99'}, 'frutas': {'Banana Prata': 'R$1,52', 'Banana Prata Benassi Orgânica 800g': 'INDISPONIVEL'}, 'oleaginosas': {'Castanha-de-Caju Yoki Torrada e Salgada Pacote 100g': 'R$22,99', 'Castanha de Caju Prezunic Torrada e Salgada 200g': 'R$25,29', 'Bebida à Base de Castanha-de-Caju e Aveia A Tal da Castanha Barista Profissional Caixa 1l': 'R$29,89', 'Bebida à Base de Castanha-de-Caju e Coco A Tal da Castanha Orgânica Caixa1l': 'R$29,89', 'Castanha de Caju': 'R$25,40', 'Castanha de Caju Amigos do Bem Salgada 50g': 'R$14,19', 'Bebida à Base de Castanha-de-Caju e Amendoim A Tal da Castanha Caixa 1l': 'R$29,89', 'Bebida à Base de Castanha-de-Caju A Tal da Castanha Orgânica Original Caixa 1l': 'R$29,89'}, 'carne': {'Ovos Brancos Grandes Prezunic c/ 20 Unid': 'R$16,09', 'Ovos Brancos Grandes Prezunic c/ 30 Unid': 'R$25,29', 'Ovos Brancos Grandes Mantiqueira Happy Eggs c/ 30 Unid': 'R$29,89', 'Ovos Brancos Grandes Prezunic Bandeja c/ 12 unid': 'R$10,19', 'Ovos Brancos Kerovos c/ 30 Unid': 'R$25,29', 'Ovos Brancos Médios Mantiqueira Galinha Pintadinha c/ 12 Unid': 'R$12,09'}, 'leite': {'Leite em Pó Itambé Integral Instantâneo Pacote 400g': 'R$18,39'}, 'oleos': {'Óleo de Soja Soya Pet 900ml': 'R$6,89', 'Óleo de Girassol Soya Pet 900ml': 'R$14,99', 'Óleo Composto de Soja e Oliva Maria Tradicional Pet 500ml': 'R$21,89', 'Óleo de Canola Salada Pet 900ml': 'R$17,89', 'Óleo de Milho Salada Pet 900ml': 'R$18,39', 'Óleo Composto Olinda 500ml': 'R$18,39', 'Óleo Restaurador Peroba Madeiras Escuras 200ml': 'R$25,29', 'Óleo de Girassol Salada Pet 900ml': 'R$18,99'}, 'cafe': {'Café em Pó Melitta Torrado e Moído Tradicional 500g': 'R$24,19', 'Café Pilão Almofada 500g': 'R$24,19', 'Café em Pó Pilão Puro a Vácuo 500g': 'R$24,19', 'Café em Pó Melitta Torrado e Moído Extraforte Caixa 500g': 'R$24,19', 'Café Melitta Tradicional Pouch 500g': 'R$24,19', 'Café em Pó Pimpinela Golden Almofada 500g': 'R$21,89', 'Café em Pó Pimpinela Torrado e Moído Extraforte Pacote 500g': 'R$19,59', 'Café em Pó 3 Corações Torrado e Moído Extraforte a Vácuo 500g': 'R$21,89'}}
     cesta_prezunic_filtrada = filtrar_cesta(cesta_prezunic)
     df_mercados = pd.concat([df_mercados,insere_prods_mercado(nome_mercado, cesta_prezunic_filtrada)],axis=0)
     
     print(df_mercados)
-    '''
+    
     ### Scraping Zona Sul ###
     nome_mercado = "Zona Sul"
     zs = zona_sul()
@@ -138,4 +140,10 @@ if __name__ == "__main__":
     df_mercados = pd.concat([df_mercados,insere_prods_mercado(nome_mercado, cesta_zona_sul_filtrada)],axis=0)
     
     print(df_mercados)
-    '''
+
+    return df_mercados
+
+#if __name__ == "__main__":
+
+#    gera_df_cesta_basica()
+    
