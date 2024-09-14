@@ -6,7 +6,7 @@ from scrapingPaodeAcucar import pao_de_acucar
 from scrapingPrezunic import prezunic
 from scrapingZonaSul import zona_sul
 
-prod_cesta_basica = {"leguminosa":"arroz branco 1 kg", "cereais":"feijão preto 1 kg", "raizes":"batata", "legumes":"cebola", "frutas":"banana prata", "oleaginosas":"castanha caju", "carne":"ovos brancos", "leite":"leite pó integral 400 g", "oleos":"óleo de soja 900 g", "cafe":"café 500 g"}
+prod_cesta_basica = {"leguminosa":"arroz branco 1 kg", "cereais":"feijão preto 1 kg", "raizes":"batata", "legumes":"cebola", "frutas":"banana prata", "oleaginosas":"castanha caju", "carne":"ovos brancos", "leite":"leite pó integral 400 g", "oleos":"óleo soja 900 ml", "cafe":"café 500 g"}
 
 def busca_valores(mercado):
     cesta_mercado = {}
@@ -143,7 +143,7 @@ def gera_df_cesta_basica():
 
     return df_mercados
 
-#if __name__ == "__main__":
+if __name__ == "__main__":
 
-#    gera_df_cesta_basica()
+    gera_df_cesta_basica().to_csv('precos_geral.csv')
     

@@ -32,8 +32,8 @@ class hortifruti:
             ## faz com que o browser nao abra durante o processo
             #options.add_argument("--headless") 
             ## caminho para o webdriver
-            drive_file = path.join(self.file_path,'chromedriver.exe')
-            service = webdriver.ChromeService(executable_path=drive_file)
+            #drive_file = path.join(self.file_path,'chromedriver.exe')
+            service = webdriver.ChromeService()
             service.creationflags = CREATE_NO_WINDOW
             self.web_driver = webdriver.Chrome(service=service,options=options)
             zonasul_url = "https://hortifruti.com.br/"
@@ -84,8 +84,8 @@ class hortifruti:
             # tratamento do produto
             prod_busca = produto.replace(' ','+')
             ## caminho para o webdriver
-            drive_file = path.join(self.file_path,'chromedriver.exe')
-            service = webdriver.ChromeService(executable_path=drive_file)
+            #drive_file = path.join(self.file_path,'chromedriver.exe')
+            service = webdriver.ChromeService()
             service.creationflags = CREATE_NO_WINDOW
             self.web_driver = webdriver.Chrome(service=service,options=options)
             self.web_driver.delete_all_cookies()

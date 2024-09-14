@@ -30,10 +30,10 @@ class pao_de_acucar:
             options.add_argument('--disable-infobars')
             options.add_experimental_option('excludeSwitches', ['load-extension','enable-automation','disable-popup-blocking'])
             ## faz com que o browser nao abra durante o processo
-            #options.add_argument("--headless") 
+            options.add_argument("--headless") 
             ## caminho para o webdriver
-            drive_file = path.join(self.file_path,'chromedriver.exe')
-            service = webdriver.ChromeService(executable_path=drive_file)
+            #drive_file = path.join(self.file_path,'chromedriver.exe')
+            service = webdriver.ChromeService()
             service.creationflags = CREATE_NO_WINDOW
             self.web_driver = webdriver.Chrome(service=service,options=options)
             zonasul_url = "https://www.zonasul.com.br/"
@@ -80,12 +80,12 @@ class pao_de_acucar:
             options.add_argument('--disable-infobars')
             #options.add_experimental_option('excludeSwitches', ['load-extension','enable-automation','disable-popup-blocking'])
             ## faz com que o browser nao abra durante o processo
-            #options.add_argument("--headless") 
+            options.add_argument("--headless") 
             # tratamento do produto
             prod_busca = produto.replace(' ','%20')
             ## caminho para o webdriver
-            drive_file = path.join(self.file_path,'chromedriver.exe')
-            service = webdriver.ChromeService(executable_path=drive_file)
+            #drive_file = path.join(self.file_path,'chromedriver.exe')
+            service = webdriver.ChromeService()
             #service.creationflags = CREATE_NO_WINDOW
             self.web_driver = webdriver.Chrome(service=service,options=options)
             self.web_driver.delete_all_cookies()
